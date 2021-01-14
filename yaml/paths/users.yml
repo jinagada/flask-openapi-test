@@ -1,0 +1,26 @@
+user_path:
+  parameters:
+    - name: user_id
+      in: path
+      description: ID of a user
+      required: true
+      schema:
+        type: string
+  get:
+    tags:
+      - users
+    description: Gets a user
+    operationId: get_user
+    responses:
+      '200':
+        description: User found
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/User'
+      'default':
+        description: Unexpected error
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/ErrorMessage'

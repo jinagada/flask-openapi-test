@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: Sample OpenAPI Specification
+  description: 'An OpenAPI specification example for Building API services: A Beginners Guide document.'
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:5002/'
+    description: 'Example API Service'
+paths:
+  /v1/users/{user_id}:
+    $ref: 'paths/users.yml#/user_path'

@@ -1,0 +1,39 @@
+{{#supportPython2}}
+#!/usr/bin/env python
+{{/supportPython2}}
+{{^supportPython2}}
+#!/usr/bin/env python3
+{{/supportPython2}}
+
+import connexion
+import logging
+import os
+from pathlib import Path
+
+from {{packageName}} import encoder
+
+# logging 설정
+logger = logging.getLogger('flask-openapi-test')
+home = str(Path(os.path.expanduser('~')))
+log_path = home + '/logs/flask-openapi-test'
+# Log 디렉토리 생성
+if not os.path.exists(log_path):
+    os.makedirs(log_path)
+# Logger 설정
+formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(filename)s(%(lineno)d) : %(message)s')
+file_handler = logging.FileHandler(log_path + os.sep + 'flask-openapi-test.log')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
+
+# Flask App 설정
+app = connexion.App(__name__, specification_dir='./openapi/')
+app.app.json_encoder = encoder.JSONEncoder
+app.add_api('openapi.yaml',
+            arguments={'title': '{{appName}}'},
+            pythonic_params=True)
+app.app.config.from_object('{{packageName}}.server_impl.Config.DevelopmentConfig')
+
+
+if __name__ == '__main__':
+    app.run(port={{serverPort}})
