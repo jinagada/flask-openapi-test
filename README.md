@@ -333,312 +333,312 @@ $ cp {OpenAPITools Download Dir}/modules/openapi-generator/src/main/resources/py
 - __main__.mustache 파일 수정
   * AS-IS
 
-  ```text
-  {{#supportPython2}}
-    #!/usr/bin/env python
-    {{/supportPython2}}
-  {{^supportPython2}}
-  #!/usr/bin/env python3
-  {{/supportPython2}}
-  
-  import connexion
-  
-  from {{packageName}} import encoder
-  
-  
-  def main():
-    app = connexion.App(__name__, specification_dir='./openapi/')
-    app.app.json_encoder = encoder.JSONEncoder
-    app.add_api('openapi.yaml',
-                arguments={'title': '{{appName}}'},
-                pythonic_params=True)
-    app.run(port={{serverPort}})
-  
-  
-  if __name__ == '__main__':
-    main()
-  ```
-
-  * TO-BE
-  
-  ```text
-  {{#supportPython2}}
+```text
+{{#supportPython2}}
   #!/usr/bin/env python
   {{/supportPython2}}
-  {{^supportPython2}}
-  #!/usr/bin/env python3
-  {{/supportPython2}}
-  
-  import connexion
-  import logging
-  import os
-  from pathlib import Path
-  
-  from {{packageName}} import encoder
-  
-  # logging 설정
-  logger = logging.getLogger('flask-openapi-test')
-  home = str(Path(os.path.expanduser('~')))
-  log_path = home + '/logs/flask-openapi-test'
-  # Log 디렉토리 생성
-  if not os.path.exists(log_path):
-      os.makedirs(log_path)
-  # Logger 설정
-  formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(filename)s(%(lineno)d) : %(message)s')
-  file_handler = logging.FileHandler(log_path + os.sep + 'flask-openapi-test.log')
-  file_handler.setFormatter(formatter)
-  logger.addHandler(file_handler)
-  logger.setLevel(logging.INFO)
-  
-  # Flask App 설정
+{{^supportPython2}}
+#!/usr/bin/env python3
+{{/supportPython2}}
+
+import connexion
+
+from {{packageName}} import encoder
+
+
+def main():
   app = connexion.App(__name__, specification_dir='./openapi/')
   app.app.json_encoder = encoder.JSONEncoder
   app.add_api('openapi.yaml',
               arguments={'title': '{{appName}}'},
               pythonic_params=True)
-  app.app.config.from_object('{{packageName}}.server_impl.Config.DevelopmentConfig')
+  app.run(port={{serverPort}})
+
+
+if __name__ == '__main__':
+  main()
+```
+
+  * TO-BE
   
-  
-  if __name__ == '__main__':
-      app.run(port={{serverPort}})
-  ```
+```text
+{{#supportPython2}}
+#!/usr/bin/env python
+{{/supportPython2}}
+{{^supportPython2}}
+#!/usr/bin/env python3
+{{/supportPython2}}
+
+import connexion
+import logging
+import os
+from pathlib import Path
+
+from {{packageName}} import encoder
+
+# logging 설정
+logger = logging.getLogger('flask-openapi-test')
+home = str(Path(os.path.expanduser('~')))
+log_path = home + '/logs/flask-openapi-test'
+# Log 디렉토리 생성
+if not os.path.exists(log_path):
+    os.makedirs(log_path)
+# Logger 설정
+formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(filename)s(%(lineno)d) : %(message)s')
+file_handler = logging.FileHandler(log_path + os.sep + 'flask-openapi-test.log')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
+
+# Flask App 설정
+app = connexion.App(__name__, specification_dir='./openapi/')
+app.app.json_encoder = encoder.JSONEncoder
+app.add_api('openapi.yaml',
+            arguments={'title': '{{appName}}'},
+            pythonic_params=True)
+app.app.config.from_object('{{packageName}}.server_impl.Config.DevelopmentConfig')
+
+
+if __name__ == '__main__':
+    app.run(port={{serverPort}})
+```
 
 - controller.mustache 파일 수정
   * AS-IS
 
-  ```text
-  import connexion
-  import six
-  
-  {{#imports}}{{import}}  # noqa: E501
-  {{/imports}}
-  from {{packageName}} import util
-  {{#operations}}
-  {{#operation}}
-  
-  
-  def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
-      """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
-  
-      {{#notes}}{{.}}{{/notes}} # noqa: E501
-  
-      {{#allParams}}
-      :param {{paramName}}: {{description}}
-          {{^isContainer}}
-              {{#isPrimitiveType}}
-      :type {{paramName}}: {{>param_type}}
-              {{/isPrimitiveType}}
-              {{#isUuid}}
-      :type {{paramName}}: {{>param_type}}
-              {{/isUuid}}
-              {{^isPrimitiveType}}
-                  {{#isFile}}
-      :type {{paramName}}: werkzeug.datastructures.FileStorage
-                  {{/isFile}}
-                  {{^isFile}}
-                      {{^isUuid}}
-      :type {{paramName}}: dict | bytes
-                      {{/isUuid}}
-                  {{/isFile}}
-              {{/isPrimitiveType}}
-          {{/isContainer}}
-          {{#isArray}}
-              {{#items}}
-                  {{#isPrimitiveType}}
-      :type {{paramName}}: List[{{>param_type}}]
-                  {{/isPrimitiveType}}
-                  {{^isPrimitiveType}}
-      :type {{paramName}}: list | bytes
-                  {{/isPrimitiveType}}
-              {{/items}}
-          {{/isArray}}
-          {{#isMap}}
-              {{#items}}
-                  {{#isPrimitiveType}}
-      :type {{paramName}}: Dict[str, {{>param_type}}]
-                  {{/isPrimitiveType}}
-                  {{^isPrimitiveType}}
-      :type {{paramName}}: dict | bytes
-                  {{/isPrimitiveType}}
-              {{/items}}
-          {{/isMap}}
-      {{/allParams}}
-  
-      :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
-      """
-      {{#allParams}}
-          {{^isContainer}}
-              {{#isDate}}
-      {{paramName}} = util.deserialize_date({{paramName}})
-              {{/isDate}}
-              {{#isDateTime}}
-      {{paramName}} = util.deserialize_datetime({{paramName}})
-              {{/isDateTime}}
-              {{^isPrimitiveType}}
-                  {{^isFile}}
-                      {{^isUuid}}
-      if connexion.request.is_json:
-          {{paramName}} = {{#baseType}}{{baseType}}{{/baseType}}{{^baseType}}{{#dataType}} {{dataType}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
-                      {{/isUuid}}
-                  {{/isFile}}
-              {{/isPrimitiveType}}
-          {{/isContainer}}
-          {{#isArray}}
-              {{#items}}
-                  {{#isDate}}
-      if connexion.request.is_json:
-          {{paramName}} = [util.deserialize_date(s) for s in connexion.request.get_json()]  # noqa: E501
-                  {{/isDate}}
-                  {{#isDateTime}}
-      if connexion.request.is_json:
-          {{paramName}} = [util.deserialize_datetime(s) for s in connexion.request.get_json()]  # noqa: E501
-                  {{/isDateTime}}
-                  {{#complexType}}
-      if connexion.request.is_json:
-          {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
-                  {{/complexType}}
-              {{/items}}
-          {{/isArray}}
-          {{#isMap}}
-              {{#items}}
-                  {{#isDate}}
-      if connexion.request.is_json:
-          {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
-                  {{/isDate}}
-                  {{#isDateTime}}
-      if connexion.request.is_json:
-          {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
-                  {{/isDateTime}}
-                  {{#complexType}}
-      if connexion.request.is_json:
-          {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
-                  {{/complexType}}
-              {{/items}}
-          {{/isMap}}
-      {{/allParams}}
-      return 'do some magic!'
-  {{/operation}}
-  {{/operations}}
-  ```
+```text
+import connexion
+import six
+
+{{#imports}}{{import}}  # noqa: E501
+{{/imports}}
+from {{packageName}} import util
+{{#operations}}
+{{#operation}}
+
+
+def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+
+    {{#notes}}{{.}}{{/notes}} # noqa: E501
+
+    {{#allParams}}
+    :param {{paramName}}: {{description}}
+        {{^isContainer}}
+            {{#isPrimitiveType}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isPrimitiveType}}
+            {{#isUuid}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isUuid}}
+            {{^isPrimitiveType}}
+                {{#isFile}}
+    :type {{paramName}}: werkzeug.datastructures.FileStorage
+                {{/isFile}}
+                {{^isFile}}
+                    {{^isUuid}}
+    :type {{paramName}}: dict | bytes
+                    {{/isUuid}}
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isArray}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: List[{{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: list | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isArray}}
+        {{#isMap}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: Dict[str, {{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: dict | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isMap}}
+    {{/allParams}}
+
+    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
+    """
+    {{#allParams}}
+        {{^isContainer}}
+            {{#isDate}}
+    {{paramName}} = util.deserialize_date({{paramName}})
+            {{/isDate}}
+            {{#isDateTime}}
+    {{paramName}} = util.deserialize_datetime({{paramName}})
+            {{/isDateTime}}
+            {{^isPrimitiveType}}
+                {{^isFile}}
+                    {{^isUuid}}
+    if connexion.request.is_json:
+        {{paramName}} = {{#baseType}}{{baseType}}{{/baseType}}{{^baseType}}{{#dataType}} {{dataType}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+                    {{/isUuid}}
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isArray}}
+            {{#items}}
+                {{#isDate}}
+    if connexion.request.is_json:
+        {{paramName}} = [util.deserialize_date(s) for s in connexion.request.get_json()]  # noqa: E501
+                {{/isDate}}
+                {{#isDateTime}}
+    if connexion.request.is_json:
+        {{paramName}} = [util.deserialize_datetime(s) for s in connexion.request.get_json()]  # noqa: E501
+                {{/isDateTime}}
+                {{#complexType}}
+    if connexion.request.is_json:
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
+                {{/complexType}}
+            {{/items}}
+        {{/isArray}}
+        {{#isMap}}
+            {{#items}}
+                {{#isDate}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+                {{/isDate}}
+                {{#isDateTime}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+                {{/isDateTime}}
+                {{#complexType}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+                {{/complexType}}
+            {{/items}}
+        {{/isMap}}
+    {{/allParams}}
+    return 'do some magic!'
+{{/operation}}
+{{/operations}}
+```
 
   * TO-BE
 
-  ```text
-  import connexion
-  import six
-  
-  {{#imports}}{{import}}  # noqa: E501
-  {{/imports}}
-  from {{packageName}} import util
-  {{#operations}}
-  {{#operation}}
-  
-  from {{packageName}}.server_impl.controllers import {{classname}}
-  
-  
-  def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
-      """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
-  
-      {{#notes}}{{.}}{{/notes}} # noqa: E501
-  
-      {{#allParams}}
-      :param {{paramName}}: {{description}}
-          {{^isContainer}}
-              {{#isPrimitiveType}}
-      :type {{paramName}}: {{>param_type}}
-              {{/isPrimitiveType}}
-              {{#isUuid}}
-      :type {{paramName}}: {{>param_type}}
-              {{/isUuid}}
-              {{^isPrimitiveType}}
-                  {{#isFile}}
-      :type {{paramName}}: werkzeug.datastructures.FileStorage
-                  {{/isFile}}
-                  {{^isFile}}
-                      {{^isUuid}}
-      :type {{paramName}}: dict | bytes
-                      {{/isUuid}}
-                  {{/isFile}}
-              {{/isPrimitiveType}}
-          {{/isContainer}}
-          {{#isArray}}
-              {{#items}}
-                  {{#isPrimitiveType}}
-      :type {{paramName}}: List[{{>param_type}}]
-                  {{/isPrimitiveType}}
-                  {{^isPrimitiveType}}
-      :type {{paramName}}: list | bytes
-                  {{/isPrimitiveType}}
-              {{/items}}
-          {{/isArray}}
-          {{#isMap}}
-              {{#items}}
-                  {{#isPrimitiveType}}
-      :type {{paramName}}: Dict[str, {{>param_type}}]
-                  {{/isPrimitiveType}}
-                  {{^isPrimitiveType}}
-      :type {{paramName}}: dict | bytes
-                  {{/isPrimitiveType}}
-              {{/items}}
-          {{/isMap}}
-      {{/allParams}}
-  
-      :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
-      """
-      {{#allParams}}
-          {{^isContainer}}
-              {{#isDate}}
-      {{paramName}} = util.deserialize_date({{paramName}})
-              {{/isDate}}
-              {{#isDateTime}}
-      {{paramName}} = util.deserialize_datetime({{paramName}})
-              {{/isDateTime}}
-              {{^isPrimitiveType}}
-                  {{^isFile}}
-                      {{^isUuid}}
-      if connexion.request.is_json:
-          {{paramName}} = {{#baseType}}{{baseType}}{{/baseType}}{{^baseType}}{{#dataType}} {{dataType}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
-                      {{/isUuid}}
-                  {{/isFile}}
-              {{/isPrimitiveType}}
-          {{/isContainer}}
-          {{#isArray}}
-              {{#items}}
-                  {{#isDate}}
-      if connexion.request.is_json:
-          {{paramName}} = [util.deserialize_date(s) for s in connexion.request.get_json()]  # noqa: E501
-                  {{/isDate}}
-                  {{#isDateTime}}
-      if connexion.request.is_json:
-          {{paramName}} = [util.deserialize_datetime(s) for s in connexion.request.get_json()]  # noqa: E501
-                  {{/isDateTime}}
-                  {{#complexType}}
-      if connexion.request.is_json:
-          {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
-                  {{/complexType}}
-              {{/items}}
-          {{/isArray}}
-          {{#isMap}}
-              {{#items}}
-                  {{#isDate}}
-      if connexion.request.is_json:
-          {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
-                  {{/isDate}}
-                  {{#isDateTime}}
-      if connexion.request.is_json:
-          {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
-                  {{/isDateTime}}
-                  {{#complexType}}
-      if connexion.request.is_json:
-          {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
-                  {{/complexType}}
-              {{/items}}
-          {{/isMap}}
-      {{/allParams}}
-      return {{classname}}.{{operationId}}({{#allParams}}{{paramName}}{{^required}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
-  {{/operation}}
-  {{/operations}}
-  ```
+```text
+import connexion
+import six
+
+{{#imports}}{{import}}  # noqa: E501
+{{/imports}}
+from {{packageName}} import util
+{{#operations}}
+{{#operation}}
+
+from {{packageName}}.server_impl.controllers import {{classname}}
+
+
+def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+
+    {{#notes}}{{.}}{{/notes}} # noqa: E501
+
+    {{#allParams}}
+    :param {{paramName}}: {{description}}
+        {{^isContainer}}
+            {{#isPrimitiveType}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isPrimitiveType}}
+            {{#isUuid}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isUuid}}
+            {{^isPrimitiveType}}
+                {{#isFile}}
+    :type {{paramName}}: werkzeug.datastructures.FileStorage
+                {{/isFile}}
+                {{^isFile}}
+                    {{^isUuid}}
+    :type {{paramName}}: dict | bytes
+                    {{/isUuid}}
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isArray}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: List[{{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: list | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isArray}}
+        {{#isMap}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: Dict[str, {{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: dict | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isMap}}
+    {{/allParams}}
+
+    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
+    """
+    {{#allParams}}
+        {{^isContainer}}
+            {{#isDate}}
+    {{paramName}} = util.deserialize_date({{paramName}})
+            {{/isDate}}
+            {{#isDateTime}}
+    {{paramName}} = util.deserialize_datetime({{paramName}})
+            {{/isDateTime}}
+            {{^isPrimitiveType}}
+                {{^isFile}}
+                    {{^isUuid}}
+    if connexion.request.is_json:
+        {{paramName}} = {{#baseType}}{{baseType}}{{/baseType}}{{^baseType}}{{#dataType}} {{dataType}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+                    {{/isUuid}}
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isArray}}
+            {{#items}}
+                {{#isDate}}
+    if connexion.request.is_json:
+        {{paramName}} = [util.deserialize_date(s) for s in connexion.request.get_json()]  # noqa: E501
+                {{/isDate}}
+                {{#isDateTime}}
+    if connexion.request.is_json:
+        {{paramName}} = [util.deserialize_datetime(s) for s in connexion.request.get_json()]  # noqa: E501
+                {{/isDateTime}}
+                {{#complexType}}
+    if connexion.request.is_json:
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
+                {{/complexType}}
+            {{/items}}
+        {{/isArray}}
+        {{#isMap}}
+            {{#items}}
+                {{#isDate}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+                {{/isDate}}
+                {{#isDateTime}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+                {{/isDateTime}}
+                {{#complexType}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+                {{/complexType}}
+            {{/items}}
+        {{/isMap}}
+    {{/allParams}}
+    return {{classname}}.{{operationId}}({{#allParams}}{{paramName}}{{^required}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+{{/operation}}
+{{/operations}}
+```
 
 ### 10-4. Flask 소스 자동생성 스크립트
 
