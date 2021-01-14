@@ -295,41 +295,7 @@ command.
 ---
 ```
 
-### 10-3. Flask 소스 자동생성 스크립트
-
-```bash
-$ vi generate-src.sh
-```
-
-- 내용
-
-```bash
-#!/usr/bin/env bash
-rm -rf ../src-gen
-
-./openapi-generator-cli.sh generate -i ../yaml/sample.yml \
--o ../src-gen \
--g python-flask \
--t templates \
---package-name openapi_test \
--p=serverPort=5002
-
-cp -r ../src/server_impl ../src-gen/openapi_test/
-```
-
-- 실행권한 설정
-
-```bash
-$ chmod +x generate-src.sh
-```
-
-- 동작확인
-
-```bash
-$ ./generate-src.sh
-```
-
-### 10-4. python-flask Template 샘플 파일 확인
+### 10-3. python-flask Template 샘플 파일 확인
 - 참고
   * URL : [templating.md](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md)
   * URL : [sample code](https://trac.engsas.de/gnuboat/browser/src/mapservice?rev=13cbe66f44f250d5e3f76cda11e899f528e510df)
@@ -674,7 +640,42 @@ $ cp {OpenAPITools Download Dir}/modules/openapi-generator/src/main/resources/py
   {{/operations}}
   ```
 
+### 10-4. Flask 소스 자동생성 스크립트
+
+```bash
+$ vi generate-src.sh
+```
+
+- 내용
+
+```bash
+#!/usr/bin/env bash
+rm -rf ../src-gen
+
+./openapi-generator-cli.sh generate -i ../yaml/sample.yml \
+-o ../src-gen \
+-g python-flask \
+-t templates \
+--package-name openapi_test \
+-p=serverPort=5002
+
+cp -r ../src/server_impl ../src-gen/openapi_test/
+```
+
+- 실행권한 설정
+
+```bash
+$ chmod +x generate-src.sh
+```
+
+- 동작확인
+
+```bash
+$ ./generate-src.sh
+```
+
 ## 11. 시작/종료 Script
+- 서버 접속 후 GUnicorn 시작/종료 Script 작성
 - 디렉토리 변경
 
 ```bash
