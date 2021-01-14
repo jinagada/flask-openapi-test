@@ -198,6 +198,11 @@ $ conda update -c conda-forge --all
 
 ## 8. logrotate 설정
 - LOG BASE : /home/yelloweb/logs/flask-openapi-test
+- LOG 디릭토리 생성
+
+```bash
+$ mkdir -p logs/flask-openapi-test
+```
 
 ```bash
 $ sudo vi /etc/logrotate.d/flask-openapi-test
@@ -223,7 +228,7 @@ $ sudo vi /etc/logrotate.d/flask-openapi-test
 }
 ```
 
-## 9. 개발 테스트용 CentOS 방화벽 설정
+## 9. Local 개발 테스트용 CentOS 방화벽 설정
 
 ```bash
 $ sudo firewall-cmd --permanent --add-port=5002/tcp
@@ -710,10 +715,4 @@ kill -9 `ps aux | grep gunicorn | grep openapi_test.__main__:app | awk '{ print 
 
 ```bash
 $ chmod +x *.sh
-```
-
-- LOG 디릭토리 생성
-
-```bash
-$ mkdir -p logs/flask-openapi-test
 ```
