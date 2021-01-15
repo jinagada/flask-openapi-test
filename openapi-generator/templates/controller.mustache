@@ -109,6 +109,6 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{/items}}
         {{/isMap}}
     {{/allParams}}
-    return {{classname}}.{{operationId}}({{#allParams}}{{paramName}}{{^required}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    return {{classname}}.{{operationId}}({{#allParams}}{{paramName}}{{^required}}={{paramName}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
 {{/operation}}
 {{/operations}}
