@@ -158,35 +158,7 @@ $ mkdir -p anaconda3/envs/flask-openapi-test/project/flask-openapi-test
 ```
 
 ## 7. 추가 모듈 설치
-### 7-1. Connexion 설치
-
-```bash
-$ conda install -c conda-forge connexion
-$ conda remove connexion
-```
-
-### 7-2. Werkzeug 설치
-
-```bash
-$ conda install -c anaconda werkzeug
-$ conda remove werkzeug
-```
-
-### 7-3. Swagger-ui-bundle 설치
-
-```bash
-$ conda install -c conda-forge swagger-ui-bundle
-$ conda remove swagger-ui-bundle
-```
-
-### 7-4 gunicorn 설치
-
-```bash
-$ conda install -c anaconda gunicorn
-$ conda remove gunicorn
-```
-
-### 7-5. 모듈 업데이트
+### 7-1. 모듈 업데이트
 
 ```bash
 $ conda update --prefix /home/yelloweb/anaconda3/envs/flask-openapi-test anaconda
@@ -195,6 +167,40 @@ $ conda update -c anaconda --all
 $ conda update -c conda-forge --all
 ```
 
+### 7-2. Connexion 설치
+
+```bash
+$ conda install -c conda-forge connexion
+$ conda remove connexion
+```
+
+### 7-3. Werkzeug 설치
+
+```bash
+$ conda install -c anaconda werkzeug
+$ conda remove werkzeug
+```
+
+### 7-4. Swagger-ui-bundle 설치
+
+```bash
+$ conda install -c conda-forge swagger-ui-bundle
+$ conda remove swagger-ui-bundle
+```
+
+### 7-5 gunicorn 설치
+
+```bash
+$ conda install -c anaconda gunicorn
+$ conda remove gunicorn
+```
+
+### 7-6 flask-cors 설치
+
+```bash
+$ conda install -c anaconda flask-cors
+$ conda remove flask-cors
+```
 
 ## 8. logrotate 설정
 - LOG BASE : /home/yelloweb/logs/flask-openapi-test

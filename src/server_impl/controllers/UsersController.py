@@ -1,6 +1,9 @@
-from ..models.User import User
-from openapi_test.models.user import User as User1
 import logging
+
+from flask import current_app
+
+from openapi_test.models.user import User as User1
+from ..models.User import User
 
 
 def get_user(user_id):
@@ -18,4 +21,5 @@ def get_user(user_id):
         user.name = f'{user_id}님'
         user.display_name = f'{user_id}별명'
         user.email = f'{user_id}@test.com'
+    logger.info(f'APP_ENV: {current_app.config.get("APP_ENV")}')
     return user.to_dict()

@@ -1,0 +1,4 @@
+Flask~=1.1.2
+setuptools~=51.1.2.post20210112
+connexion~=2020.0.dev1
+six~=1.15.0

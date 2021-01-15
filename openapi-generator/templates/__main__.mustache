@@ -9,6 +9,7 @@ import connexion
 import logging
 import os
 from pathlib import Path
+from flask_cors import CORS
 
 from {{packageName}} import encoder
 
@@ -33,6 +34,8 @@ app.add_api('openapi.yaml',
             arguments={'title': '{{appName}}'},
             pythonic_params=True)
 app.app.config.from_object('{{packageName}}.server_impl.Config.DevelopmentConfig')
+app.app.config['APP_ENV'] = 'dev'
+CORS(app.app)
 
 
 if __name__ == '__main__':
