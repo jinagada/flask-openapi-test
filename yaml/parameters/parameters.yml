@@ -1,0 +1,9 @@
+code:
+  name: code
+  in: path
+  description: '샘플용 코드 : 200, 204, 400, 401, 403, 404, 500'
+  required: true
+  schema:
+    type: integer
+    format: int32
+  example: 200

@@ -18,9 +18,9 @@ user_path:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/User'
-      'default':
+      '500':
         description: Unexpected error
         content:
           'application/json':
             schema:
-              $ref: '../components/schemas.yml#/ErrorMessage'
+              $ref: '../components/schemas.yml#/HttpStatusMessage'

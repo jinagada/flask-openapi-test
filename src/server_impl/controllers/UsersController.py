@@ -5,9 +5,10 @@ from flask import current_app
 from openapi_test.models.user import User as User1
 from ..models.User import User
 
+logger = logging.getLogger('flask-openapi-test.UsersController')
+
 
 def get_user(user_id):
-    logger = logging.getLogger('flask-openapi-test.UsersController')
     logger.info(f'user_id : {user_id}')
     if user_id == 'test':
         user = User()

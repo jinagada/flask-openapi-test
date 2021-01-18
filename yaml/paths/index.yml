@@ -1,0 +1,47 @@
+sample_path:
+  get:
+    tags:
+      - sample
+    description: Sample API
+    operationId: get_index_v1
+    parameters:
+      - $ref: '../parameters/parameters.yml#/code'
+    responses:
+      '200':
+        description: Welcome Message
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/Sample'
+      '204':
+        description: 'No Content'
+      '400':
+        description: 'Bad Request'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '401':
+        description: 'Unauthorized'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '403':
+        description: 'Forbidden'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '404':
+        description: 'Not Found'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '500':
+        description: 'Server Error'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'

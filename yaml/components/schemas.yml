@@ -1,3 +1,20 @@
+HttpStatusMessage:
+  type: object
+  required:
+    - message
+  properties:
+    message:
+      type: string
+      description: '메시지'
+      example: 'Bad Request, Not Found, Unexpected error ...'
+    error_code:
+      type: string
+      description: '오류코드'
+      example: 'PARAM_ERROR, NOT_FOUND, NO_DATA, UNKNOWN ...'
+    error_message:
+      type: string
+      description: '오류 메시지'
+      example: '필수 파라메터가 없습니다., 사용자 정보가 없습니다., 데이터가 없습니다., 서버 오류메시지 ...'
 User:
   type: object
   required:
@@ -14,13 +31,14 @@ User:
     email:
       type: string
       format: email
-ErrorMessage:
+Sample:
   type: object
-  required:
-    - error_code
-    - error_message
   properties:
-    error_code:
+    code:
       type: string
-    error_message:
+      description: '성공코드'
+      example: 'SUCC'
+    message:
       type: string
+      description: '성공메시지'
+      example: '환영합니다.'
