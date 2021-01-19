@@ -1,7 +1,10 @@
 code:
   name: code
   in: path
-  description: '샘플용 코드 : 200, 204, 400, 401, 403, 404, 500'
+  description: '''샘플용 코드 : 200, 201(PUT), 204(GET, POST, DELETE),
+    400, 401, 403, 404(GET, POST, DELETE), 409(POST, PUT, DELETE),
+    500
+  '''
   required: true
   schema:
     type: integer

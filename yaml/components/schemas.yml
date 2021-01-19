@@ -1,20 +1,36 @@
 HttpStatusMessage:
   type: object
   required:
-    - message
+    - title
+    - status
+    - detail
+    - type_txt
   properties:
-    message:
+    title:
       type: string
-      description: '메시지'
-      example: 'Bad Request, Not Found, Unexpected error ...'
+      description: '상태 제목'
+      example: 'Not Found'
+    status:
+      type: integer
+      format: int32
+      description: '상태 코드'
+      example: 404, 409, 400, 500
+    detail:
+      type: string
+      description: '상세 설명'
+      example: 'The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.'
+    type_txt:
+      type: string
+      description: 'System에서 사용함. 실제 필드 : type'
+      example: 'about:blank'
     error_code:
       type: string
       description: '오류코드'
       example: 'PARAM_ERROR, NOT_FOUND, NO_DATA, UNKNOWN ...'
-    error_message:
+    error_args:
       type: string
-      description: '오류 메시지'
-      example: '필수 파라메터가 없습니다., 사용자 정보가 없습니다., 데이터가 없습니다., 서버 오류메시지 ...'
+      description: '오류 Argument'
+      example: '오류발생'
 User:
   type: object
   required:

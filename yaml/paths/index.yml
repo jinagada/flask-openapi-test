@@ -1,14 +1,14 @@
 sample_path:
+  parameters:
+    - $ref: '../parameters/parameters.yml#/code'
   get:
     tags:
       - sample
-    description: Sample API
+    description: 'Sample API - GET'
     operationId: get_index_v1
-    parameters:
-      - $ref: '../parameters/parameters.yml#/code'
     responses:
       '200':
-        description: Welcome Message
+        description: 'Welcome Message'
         content:
           'application/json':
             schema:
@@ -35,6 +35,172 @@ sample_path:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
       '404':
         description: 'Not Found'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '500':
+        description: 'Server Error'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+  post:
+    tags:
+      - sample
+    description: 'Sample API - POST'
+    operationId: post_index_v1
+    requestBody:
+      description: 'JSON 파라메터'
+      content:
+        'application/json':
+          schema:
+            $ref: '../parameters/requestBody.yml#/SampleBody'
+    responses:
+      '200':
+        description: 'POST result'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/Sample'
+      '204':
+        description: 'No Content'
+      '400':
+        description: 'Bad Request'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '401':
+        description: 'Unauthorized'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '403':
+        description: 'Forbidden'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '404':
+        description: 'Not Found'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '409':
+        description: 'Conflict'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '500':
+        description: 'Server Error'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+  put:
+    tags:
+      - sample
+    description: 'Sample API - PUT'
+    operationId: put_index_v1
+    requestBody:
+      description: 'JSON 파라메터'
+      content:
+        'application/json':
+          schema:
+            $ref: '../parameters/requestBody.yml#/SampleBody'
+    responses:
+      '200':
+        description: 'PUT result'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/Sample'
+      '201':
+        description: 'Created'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '400':
+        description: 'Bad Request'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '401':
+        description: 'Unauthorized'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '403':
+        description: 'Forbidden'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '409':
+        description: 'Conflict'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '500':
+        description: 'Server Error'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+  delete:
+    tags:
+      - sample
+    description: 'Sample API - DELETE'
+    operationId: delete_index_v1
+    requestBody:
+      description: 'JSON 파라메터'
+      content:
+        'application/json':
+          schema:
+            $ref: '../parameters/requestBody.yml#/SampleBody'
+    responses:
+      '200':
+        description: 'POST result'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/Sample'
+      '204':
+        description: 'No Content'
+      '400':
+        description: 'Bad Request'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '401':
+        description: 'Unauthorized'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '403':
+        description: 'Forbidden'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '404':
+        description: 'Not Found'
+        content:
+          'application/json':
+            schema:
+              $ref: '../components/schemas.yml#/HttpStatusMessage'
+      '409':
+        description: 'Conflict'
         content:
           'application/json':
             schema:
