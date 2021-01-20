@@ -8,7 +8,8 @@ from ..config.config import CommonConfig
 from ..service.LogService import *
 
 logger = logging.getLogger('flask-openapi-test.SampleController')
-common_config = CommonConfig()
+common_config_obj = CommonConfig()
+common_config = None
 
 
 def get_index_v1(code):
@@ -18,9 +19,11 @@ def get_index_v1(code):
     :return:
     """
     try:
+        global common_config
+        common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
+        debug_log(logger, f'config : {common_config}', 'get_index_v1')
         debug_log(logger, f'code : {code}', 'get_index_v1')
         sample = Sample('SUCC', 'Welcome to OpenAPI')
-        debug_log(logger, f'config : {common_config.get_config(current_app.config.get("APP_ENV"))}', 'get_index_v1')
         if code == 204:
             result = NoContent('조회 결과가 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'get_index_v1')
@@ -55,9 +58,11 @@ def post_index_v1(code, sample_body):
     :return:
     """
     try:
+        global common_config
+        common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
+        debug_log(logger, f'config : {common_config}', 'get_index_v1')
         debug_log(logger, f'code, sample_body : {code}, {sample_body}', 'post_index_v1')
         sample = Sample(sample_body.code, sample_body.message)
-        debug_log(logger, f'config : {common_config.get_config(current_app.config.get("APP_ENV"))}', 'post_index_v1')
         if code == 204:
             result = NoContent('조회 결과가 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'post_index_v1')
@@ -95,9 +100,11 @@ def put_index_v1(code, sample_body):
     :return:
     """
     try:
+        global common_config
+        common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
+        debug_log(logger, f'config : {common_config}', 'get_index_v1')
         debug_log(logger, f'code, sample_body : {code}, {sample_body}', 'put_index_v1')
         sample = Sample(sample_body.code, sample_body.message)
-        debug_log(logger, f'config : {common_config.get_config(current_app.config.get("APP_ENV"))}', 'put_index_v1')
         if code == 201:
             result = Created('Succss').to_tuple()
             debug_log(logger, f'Created : {result}', 'put_index_v1')
@@ -132,9 +139,11 @@ def delete_index_v1(code, sample_body=None):
     :return:
     """
     try:
+        global common_config
+        common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
+        debug_log(logger, f'config : {common_config}', 'get_index_v1')
         debug_log(logger, f'code, sample_body : {code}, {sample_body}', 'delete_index_v1')
         sample = Sample(sample_body.code, sample_body.message)
-        debug_log(logger, f'config : {common_config.get_config(current_app.config.get("APP_ENV"))}', 'delete_index_v1')
         if code == 204:
             result = NoContent('데이터가 존재하지 않습니다.(삭제 완료 포함)').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
