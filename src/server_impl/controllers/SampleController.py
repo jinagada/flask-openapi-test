@@ -1,13 +1,15 @@
 import logging
+import traceback
 
 from flask import current_app
 
 from openapi_test.models.sample import Sample
 from .HttpStatus import *
 from ..config.config import CommonConfig
+from ..exception.CustomException import ApiServerException
 from ..service.LogService import *
 
-logger = logging.getLogger('flask-openapi-test.SampleController')
+logger = logging.getLogger('bb-openapi-v1.SampleController')
 common_config_obj = CommonConfig()
 common_config = None
 
@@ -31,22 +33,22 @@ def get_index_v1(code):
             result = BadRequest('필수값이 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'get_index_v1')
         elif code == 401:
-            result = Unauthorized(error_code='USER_NOT_FOUND', detail='사용자 정보 없음').to_tuple()
+            result = Unauthorized('사용자 정보 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'get_index_v1')
         elif code == 403:
-            result = Forbidden(error_code='ROLE_ERROR', detail='접근 권한 없음').to_tuple()
+            result = Forbidden('접근 권한 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'get_index_v1')
         elif code == 404:
             result = NotFound('사용자 정보 조회 결과 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'get_index_v1')
         elif code == 500:
-            raise Exception('오류발생')
+            raise ApiServerException('서버 오류 발생', 'E01', '테스트용 오류 강제 생성')
         else:
             result = Success().to_tuple(sample)
     except Exception as e:
-        result = ServerError(detail=f'{e}', error_code='UNKNOWN', error_args=f'{e.args}').to_tuple()
-        debug_log(logger, f'ERROR : {result}', 'get_index_v1')
+        result = ServerError(f'{e}').to_tuple()
         err_log(logger, e, 'get_index_v1')
+        logger.error(traceback.format_exc())
     return result
 
 
@@ -70,25 +72,25 @@ def post_index_v1(code, sample_body):
             result = BadRequest('필수값이 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'post_index_v1')
         elif code == 401:
-            result = Unauthorized(error_code='USER_NOT_FOUND', detail='사용자 정보 없음').to_tuple()
+            result = Unauthorized('사용자 정보 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'post_index_v1')
         elif code == 403:
-            result = Forbidden(error_code='ROLE_ERROR', detail='접근 권한 없음').to_tuple()
+            result = Forbidden('접근 권한 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'post_index_v1')
         elif code == 404:
             result = NotFound('사용자 정보 조회 결과 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'post_index_v1')
         elif code == 409:
-            result = Conflict(error_code='DUPLICATE', detail='자료 중복').to_tuple()
+            result = Conflict('자료 중복').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'post_index_v1')
         elif code == 500:
-            raise Exception('오류발생')
+            raise ApiServerException('서버 오류 발생', 'E01', '테스트용 오류 강제 생성')
         else:
             result = Success().to_tuple(sample)
     except Exception as e:
-        result = ServerError(detail=f'{e}', error_code='UNKNOWN', error_args=f'{e.args}').to_tuple()
-        debug_log(logger, f'ERROR : {result}', 'post_index_v1')
+        result = ServerError(f'{e}').to_tuple()
         err_log(logger, e, 'post_index_v1')
+        logger.error(traceback.format_exc())
     return result
 
 
@@ -112,22 +114,22 @@ def put_index_v1(code, sample_body):
             result = BadRequest('필수값이 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'put_index_v1')
         elif code == 401:
-            result = Unauthorized(error_code='USER_NOT_FOUND', detail='사용자 정보 없음').to_tuple()
+            result = Unauthorized('사용자 정보 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'put_index_v1')
         elif code == 403:
-            result = Forbidden(error_code='ROLE_ERROR', detail='접근 권한 없음').to_tuple()
+            result = Forbidden('접근 권한 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'put_index_v1')
         elif code == 409:
-            result = Forbidden(error_code='DUPLICATE', detail='자료 중복').to_tuple()
+            result = Forbidden('자료 중복').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'put_index_v1')
         elif code == 500:
-            raise Exception('오류발생')
+            raise ApiServerException('서버 오류 발생', 'E01', '테스트용 오류 강제 생성')
         else:
             result = Success().to_tuple(sample)
     except Exception as e:
-        result = ServerError(detail=f'{e}', error_code='UNKNOWN', error_args=f'{e.args}').to_tuple()
-        debug_log(logger, f'ERROR : {result}', 'put_index_v1')
+        result = ServerError(f'{e}').to_tuple()
         err_log(logger, e, 'put_index_v1')
+        logger.error(traceback.format_exc())
     return result
 
 
@@ -151,23 +153,23 @@ def delete_index_v1(code, sample_body=None):
             result = BadRequest('필수값이 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
         elif code == 401:
-            result = Unauthorized(error_code='USER_NOT_FOUND', detail='사용자 정보 없음').to_tuple()
+            result = Unauthorized('사용자 정보 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
         elif code == 403:
-            result = Forbidden(error_code='ROLE_ERROR', detail='접근 권한 없음').to_tuple()
+            result = Forbidden('접근 권한 없음').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
         elif code == 404:
             result = NotFound('삭제할 데이터가 없습니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
         elif code == 409:
-            result = Conflict(error_code='CONFLICT', detail='삭제할 수 없는 상태 입니다.').to_tuple()
+            result = Conflict('삭제할 수 없는 상태 입니다.').to_tuple()
             debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
         elif code == 500:
-            raise Exception('오류발생')
+            raise ApiServerException('서버 오류 발생', 'E01', '테스트용 오류 강제 생성')
         else:
             result = Success().to_tuple(sample)
     except Exception as e:
-        result = ServerError(detail=f'{e}', error_code='UNKNOWN', error_args=f'{e.args}').to_tuple()
-        debug_log(logger, f'ERROR : {result}', 'delete_index_v1')
+        result = ServerError(f'{e}').to_tuple()
         err_log(logger, e, 'delete_index_v1')
+        logger.error(traceback.format_exc())
     return result

@@ -23,14 +23,6 @@ HttpStatusMessage:
       type: string
       description: 'System에서 사용함. 실제 필드 : type'
       example: 'about:blank'
-    error_code:
-      type: string
-      description: '오류코드'
-      example: 'PARAM_ERROR, NOT_FOUND, NO_DATA, UNKNOWN ...'
-    error_args:
-      type: string
-      description: '오류 Argument'
-      example: '오류발생'
 User:
   type: object
   required:

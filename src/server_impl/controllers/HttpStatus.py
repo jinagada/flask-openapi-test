@@ -2,30 +2,25 @@ from openapi_test.models.http_status_message import HttpStatusMessage
 
 
 class HttpStatus:
-    def __init__(self, title, status, detail, type_txt='about:blank', error_code=None, error_args=None):
+    def __init__(self, title, status, detail, type_txt='about:blank'):
         """
         변수 설정
         :param title:
         :param status:
         :param detail:
         :param type_txt:
-        :param error_code:
-        :param error_args:
         """
         self.title = title
         self.status = status
         self.detail = detail
         self.type = type_txt
-        self.error_code = error_code
-        self.error_args = error_args
 
     def to_tuple(self):
         """
         Tuple 로 변환하여 반환
         :return:
         """
-        temp_obj = HttpStatusMessage(title=self.title, status=self.status, detail=self.detail, type_txt=self.type,
-                                     error_code=self.error_code, error_args=self.error_args)
+        temp_obj = HttpStatusMessage(title=self.title, status=self.status, detail=self.detail, type_txt=self.type)
         temp_dict = temp_obj.to_dict()
         temp_dict['type'] = temp_dict['type_txt']
         del temp_dict['type_txt']
@@ -77,16 +72,16 @@ class Unauthorized(HttpStatus):
     """
     Unauthorized Retrun
     """
-    def __init__(self, error_code=None, detail=None):
-        super().__init__('Unauthorized', 401, detail, '', error_code)
+    def __init__(self, detail=None):
+        super().__init__('Unauthorized', 401, detail)
 
 
 class Forbidden(HttpStatus):
     """
     Forbidden Retrun
     """
-    def __init__(self, error_code=None, detail=None):
-        super().__init__('Forbidden', 403, detail, '', error_code)
+    def __init__(self, detail=None):
+        super().__init__('Forbidden', 403, detail)
 
 
 class NotFound(HttpStatus):
@@ -101,13 +96,13 @@ class Conflict(HttpStatus):
     """
     Conflict Retrun
     """
-    def __init__(self, error_code=None, detail=None):
-        super().__init__('Conflict', 409, detail, '', error_code)
+    def __init__(self, detail=None):
+        super().__init__('Conflict', 409, detail)
 
 
 class ServerError(HttpStatus):
     """
     500 Server Error Return
     """
-    def __init__(self, detail='Server Error', error_code=None, error_args=None):
-        super().__init__('Server Error', 500, detail, '', error_code, error_args)
+    def __init__(self, detail='Server Error'):
+        super().__init__('Server Error', 500, detail)
