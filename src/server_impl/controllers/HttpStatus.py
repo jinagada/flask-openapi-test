@@ -40,7 +40,10 @@ class Success(HttpStatus):
         Tuple 로 변환하여 반환
         :return:
         """
-        result = result_dict.to_dict()
+        if 'to_dict' in result_dict:
+            result = result_dict.to_dict()
+        else:
+            result = result_dict
         return result, self.status
 
 
