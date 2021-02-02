@@ -1,6 +1,9 @@
-def err_log(logger, e, fn_name, traceback_str):
+from logging import Logger
+
+
+def err_log(logger: Logger, fn_name, e, traceback_str):
     """
-    오류로그 출력
+    ERROR 로그 출력
     :param logger:
     :param e:
     :param fn_name:
@@ -11,11 +14,21 @@ def err_log(logger, e, fn_name, traceback_str):
     logger.error(traceback_str)
 
 
-def debug_log(logger, msg, fn_name):
+def debug_log(logger: Logger, fn_name, msg):
     """
-    디버그로그 출력
+    DEBUG 로그 출력
     :param logger:
     :param msg:
     :param fn_name:
     """
     logger.debug(f'{fn_name} {msg}')
+
+
+def info_log(logger: Logger, fn_name, msg):
+    """
+    INFO 로그 출력
+    :param logger:
+    :param msg:
+    :param fn_name:
+    """
+    logger.info(f'{fn_name} {msg}')

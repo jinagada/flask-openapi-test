@@ -9,7 +9,7 @@ from ..config.config import CommonConfig
 from ..exception.CustomException import *
 from ..service.LogService import *
 
-logger = logging.getLogger('bb-openapi-v1.SampleController')
+logger = logging.getLogger('flask-openapi-test.SampleController')
 common_config_obj = CommonConfig()
 common_config = None
 
@@ -23,8 +23,8 @@ def get_index_v1(code):
     try:
         global common_config
         common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
-        debug_log(logger, f'config : {common_config}', 'get_index_v1')
-        debug_log(logger, f'code : {code}', 'get_index_v1')
+        debug_log(logger, 'get_index_v1', f'config : {common_config}')
+        debug_log(logger, 'get_index_v1', f'code : {code}')
         sample = Sample('SUCC', 'Welcome to OpenAPI')
         if code == 204:
             raise DataNotFoundException('조회 결과가 없습니다.')
@@ -41,22 +41,22 @@ def get_index_v1(code):
         result = Success().to_tuple(sample)
     except DataNotFoundException as e:
         result = NoContent(str(e)).to_tuple()
-        err_log(logger, e, 'get_index_v1', traceback.format_exc())
+        err_log(logger, 'get_index_v1', e, traceback.format_exc())
     except BadParameterException as e:
         result = BadRequest(str(e)).to_tuple()
-        err_log(logger, e, 'get_index_v1', traceback.format_exc())
+        err_log(logger, 'get_index_v1', e, traceback.format_exc())
     except UnauthorizedUserException as e:
         result = Unauthorized(str(e)).to_tuple()
-        err_log(logger, e, 'get_index_v1', traceback.format_exc())
+        err_log(logger, 'get_index_v1', e, traceback.format_exc())
     except UserPermissionException as e:
         result = Forbidden(str(e)).to_tuple()
-        err_log(logger, e, 'get_index_v1', traceback.format_exc())
+        err_log(logger, 'get_index_v1', e, traceback.format_exc())
     except UserNotFoundException as e:
         result = NotFound(str(e)).to_tuple()
-        err_log(logger, e, 'get_index_v1', traceback.format_exc())
+        err_log(logger, 'get_index_v1', e, traceback.format_exc())
     except Exception as e:
         result = ServerError(f'{e}').to_tuple()
-        err_log(logger, e, 'get_index_v1', traceback.format_exc())
+        err_log(logger, 'get_index_v1', e, traceback.format_exc())
     return result
 
 
@@ -70,8 +70,8 @@ def post_index_v1(code, sample_body):
     try:
         global common_config
         common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
-        debug_log(logger, f'config : {common_config}', 'get_index_v1')
-        debug_log(logger, f'code, sample_body : {code}, {sample_body}', 'post_index_v1')
+        debug_log(logger, 'post_index_v1', f'config : {common_config}')
+        debug_log(logger, 'post_index_v1', f'code, sample_body : {code}, {sample_body}')
         sample = Sample(sample_body.code, sample_body.message)
         if code == 204:
             raise DataNotFoundException('조회 결과가 없습니다.')
@@ -90,25 +90,25 @@ def post_index_v1(code, sample_body):
         result = Success().to_tuple(sample)
     except DataNotFoundException as e:
         result = NoContent(str(e)).to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     except BadParameterException as e:
         result = BadRequest(str(e)).to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     except UnauthorizedUserException as e:
         result = Unauthorized(str(e)).to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     except UserPermissionException as e:
         result = Forbidden(str(e)).to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     except UserNotFoundException as e:
         result = NotFound(str(e)).to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     except DataDuplicationException as e:
         result = Conflict(str(e)).to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     except Exception as e:
         result = ServerError(f'{e}').to_tuple()
-        err_log(logger, e, 'post_index_v1', traceback.format_exc())
+        err_log(logger, 'post_index_v1', e, traceback.format_exc())
     return result
 
 
@@ -122,8 +122,8 @@ def put_index_v1(code, sample_body):
     try:
         global common_config
         common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
-        debug_log(logger, f'config : {common_config}', 'get_index_v1')
-        debug_log(logger, f'code, sample_body : {code}, {sample_body}', 'put_index_v1')
+        debug_log(logger, 'put_index_v1', f'config : {common_config}')
+        debug_log(logger, 'put_index_v1', f'code, sample_body : {code}, {sample_body}')
         sample = Sample(sample_body.code, sample_body.message)
         if code == 400:
             raise BadParameterException('필수값이 없습니다.')
@@ -137,24 +137,24 @@ def put_index_v1(code, sample_body):
             raise ApiServerException('서버 오류 발생', 'E01', '테스트용 오류 강제 생성')
         if code == 201:
             result = Created('Succss').to_tuple()
-            debug_log(logger, f'Created : {result}', 'put_index_v1')
+            debug_log(logger, 'put_index_v1', f'Created : {result}')
         else:
             result = Success().to_tuple(sample)
     except BadParameterException as e:
         result = BadRequest(str(e)).to_tuple()
-        err_log(logger, e, 'put_index_v1', traceback.format_exc())
+        err_log(logger, 'put_index_v1', e, traceback.format_exc())
     except UnauthorizedUserException as e:
         result = Unauthorized(str(e)).to_tuple()
-        err_log(logger, e, 'put_index_v1', traceback.format_exc())
+        err_log(logger, 'put_index_v1', e, traceback.format_exc())
     except UserPermissionException as e:
         result = Forbidden(str(e)).to_tuple()
-        err_log(logger, e, 'put_index_v1', traceback.format_exc())
+        err_log(logger, 'put_index_v1', e, traceback.format_exc())
     except DataDuplicationException as e:
         result = Conflict(str(e)).to_tuple()
-        err_log(logger, e, 'put_index_v1', traceback.format_exc())
+        err_log(logger, 'put_index_v1', e, traceback.format_exc())
     except Exception as e:
         result = ServerError(f'{e}').to_tuple()
-        err_log(logger, e, 'put_index_v1', traceback.format_exc())
+        err_log(logger, 'put_index_v1', e, traceback.format_exc())
     return result
 
 
@@ -168,8 +168,8 @@ def delete_index_v1(code, sample_body=None):
     try:
         global common_config
         common_config = common_config_obj.get_config(current_app.config.get("APP_ENV"))
-        debug_log(logger, f'config : {common_config}', 'get_index_v1')
-        debug_log(logger, f'code, sample_body : {code}, {sample_body}', 'delete_index_v1')
+        debug_log(logger, 'delete_index_v1', f'config : {common_config}')
+        debug_log(logger, 'delete_index_v1', f'code, sample_body : {code}, {sample_body}')
         sample = Sample(sample_body.code, sample_body.message)
         if code == 204:
             raise DataNotFoundException('데이터가 존재하지 않습니다.(삭제 완료 포함)')
@@ -188,23 +188,23 @@ def delete_index_v1(code, sample_body=None):
         result = Success().to_tuple(sample)
     except DataNotFoundException as e:
         result = NoContent(str(e)).to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     except BadParameterException as e:
         result = BadRequest(str(e)).to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     except UnauthorizedUserException as e:
         result = Unauthorized(str(e)).to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     except UserPermissionException as e:
         result = Forbidden(str(e)).to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     except UserNotFoundException as e:
         result = NotFound(str(e)).to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     except DataErrorException as e:
         result = Conflict(str(e)).to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     except Exception as e:
         result = ServerError(f'{e}').to_tuple()
-        err_log(logger, e, 'delete_index_v1', traceback.format_exc())
+        err_log(logger, 'delete_index_v1', e, traceback.format_exc())
     return result
