@@ -30,7 +30,7 @@ class HttpStatus:
 
 class Success(HttpStatus):
     """
-    Created Retrun
+    Success(200) Retrun
     """
     def __init__(self):
         super().__init__('', 200, '')
