@@ -4,6 +4,7 @@ GET http://{{host}}/v1/index/404
 > {%
 // 강제로 오류을 발생시켜 테스트 확인
 client.test("GET - Status", function () {
+    client.log("별도 Log 남기기");
     client.assert(response.status === 200, "Response status is not 200");
 });
 %}
@@ -19,6 +20,11 @@ Content-Type: application/json
 
 > {%
 client.test("POST - Status", function () {
+    if (typeof response.body === "object") {
+        client.log(JSON.stringify(response.body));
+    } else {
+        client.log(response.body);
+    }
     client.assert(response.status === 200, "Response status is not 200");
 });
 %}
@@ -67,5 +73,30 @@ client.test("GET User - name", function () {
     client.assert(response.body.hasOwnProperty("name"), "조회결과 없음1");
     // 강제로 오류를 발생시켜 테스트 확인
     client.assert(response.body.name === "TestId1님", "조회결과 없음2");
+});
+%}
+
+### client.global 테스트 - 1
+GET http://{{host}}/v1/users/TestId
+
+> {%
+client.test("GET User - Status", function () {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.global.set("g_email_val", response.body.email);
+    client.log(client.global.get("g_email_val"));
+});
+%}
+
+### client.global 테스트 - 2 : 위에서 설정한 client.global 변수 확인
+GET http://{{host}}/v1/users/{{g_email_val}}
+
+> {%
+client.test("GET User - Status", function () {
+    if (typeof response.body === "object") {
+        client.log(JSON.stringify(response.body));
+    } else {
+        client.log(response.body);
+    }
+    client.assert(response.status === 200, "Response status is not 200");
 });
 %}
