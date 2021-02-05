@@ -1,5 +1,12 @@
 ###
-GET http://{{host}}/v1/index/200
+GET http://{{host}}/v1/index/404
+
+> {%
+// 강제로 오류을 발생시켜 테스트 확인
+client.test("GET - Status", function () {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+%}
 
 ###
 POST http://{{host}}/v1/index/200
@@ -10,6 +17,12 @@ Content-Type: application/json
   "message": "메시지"
 }
 
+> {%
+client.test("POST - Status", function () {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
 ###
 PUT http://{{host}}/v1/index/200
 Content-Type: application/json
@@ -18,6 +31,12 @@ Content-Type: application/json
   "code": "TEST1",
   "message": "메시지"
 }
+
+> {%
+client.test("PUT - Status", function () {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+%}
 
 ###
 DELETE http://{{host}}/v1/index/200
@@ -28,5 +47,22 @@ Content-Type: application/json
   "message": "메시지"
 }
 
+> {%
+client.test("DELETE - Status", function () {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
 ###
 GET http://{{host}}/v1/users/TestId
+
+> {%
+client.test("GET User - Status", function () {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+client.test("GET User - name", function () {
+    client.assert(response.body.hasOwnProperty("name"), "조회결과 없음1");
+    // 강제로 오류를 발생시켜 테스트 확인
+    client.assert(response.body.name === "TestId1님", "조회결과 없음2");
+});
+%}
