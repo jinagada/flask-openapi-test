@@ -55,6 +55,9 @@ client.test("DELETE - Status", function () {
 
 ###
 GET http://{{host}}/v1/users/TestId
+    ?a=1
+    &b=2
+    &c=한글
 
 > {%
 client.test("GET User - Status", function () {
