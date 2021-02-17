@@ -21,30 +21,45 @@ sample_path:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              400:
+                $ref: '../components/examples.yml#/400'
       '401':
         description: 'Unauthorized'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              401:
+                $ref: '../components/examples.yml#/common'
       '403':
         description: 'Forbidden'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              403:
+                $ref: '../components/examples.yml#/common'
       '404':
         description: 'Not Found'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              404:
+                $ref: '../components/examples.yml#/404'
       '500':
         description: 'Server Error'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              500:
+                $ref: '../components/examples.yml#/500'
   post:
     tags:
       - sample
@@ -71,36 +86,54 @@ sample_path:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              400:
+                $ref: '../components/examples.yml#/400'
       '401':
         description: 'Unauthorized'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              401:
+                $ref: '../components/examples.yml#/common'
       '403':
         description: 'Forbidden'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              403:
+                $ref: '../components/examples.yml#/common'
       '404':
         description: 'Not Found'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              404:
+                $ref: '../components/examples.yml#/404'
       '409':
         description: 'Conflict'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              409:
+                $ref: '../components/examples.yml#/common'
       '500':
         description: 'Server Error'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              500:
+                $ref: '../components/examples.yml#/500'
   put:
     tags:
       - sample
@@ -125,36 +158,54 @@ sample_path:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              201:
+                $ref: '../components/examples.yml#/201'
       '400':
         description: 'Bad Request'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              400:
+                $ref: '../components/examples.yml#/400'
       '401':
         description: 'Unauthorized'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              401:
+                $ref: '../components/examples.yml#/common'
       '403':
         description: 'Forbidden'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              403:
+                $ref: '../components/examples.yml#/common'
       '409':
         description: 'Conflict'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              409:
+                $ref: '../components/examples.yml#/common'
       '500':
         description: 'Server Error'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              500:
+                $ref: '../components/examples.yml#/500'
   delete:
     tags:
       - sample
@@ -181,33 +232,51 @@ sample_path:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              400:
+                $ref: '../components/examples.yml#/400'
       '401':
         description: 'Unauthorized'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              401:
+                $ref: '../components/examples.yml#/common'
       '403':
         description: 'Forbidden'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              403:
+                $ref: '../components/examples.yml#/common'
       '404':
         description: 'Not Found'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              404:
+                $ref: '../components/examples.yml#/404'
       '409':
         description: 'Conflict'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              409:
+                $ref: '../components/examples.yml#/common'
       '500':
         description: 'Server Error'
         content:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              500:
+                $ref: '../components/examples.yml#/500'

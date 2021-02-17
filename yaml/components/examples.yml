@@ -1,0 +1,35 @@
+common:
+  value: {
+    "detail": "상세 설명",
+    "status": "상태코드(401, 403, 409 ...)",
+    "title": "상태명",
+    "type": "about:blank"
+  }
+201:
+  value: {
+    "detail": "success",
+    "status": 201,
+    "title": "success",
+    "type": "about:blank"
+  }
+400:
+  value: {
+    "detail": "'brows_version' is a required property",
+    "status": 400,
+    "title": "Bad Request",
+    "type": "about:blank"
+  }
+404:
+  value: {
+    "detail": "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+    "status": 404,
+    "title": "Not Found",
+    "type": "about:blank"
+  }
+500:
+  value: {
+    "detail": "1048 (23000): Column 'CUR_RANK' cannot be null",
+    "status": 500,
+    "title": "Server Error",
+    "type": "about:blank"
+  }

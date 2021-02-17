@@ -24,3 +24,6 @@ user_path:
           'application/json':
             schema:
               $ref: '../components/schemas.yml#/HttpStatusMessage'
+            examples:
+              500:
+                $ref: '../components/examples.yml#/500'

@@ -14,7 +14,7 @@ HttpStatusMessage:
       type: integer
       format: int32
       description: '상태 코드'
-      example: 404, 409, 400, 500
+      example: 404
     detail:
       type: string
       description: '상세 설명'
